@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">C25K</string>
+
+    <string name="run">Run</string>
+    <string name="walk">Walk</string>
+    <string name="warmup">Warm-Up</string>
+    <string name="cooldown">Cooldown</string>
+
+    <string name="incomplete">Incomplete</string>
+    <string name="complete">Complete</string>
+    <string name="mark_complete">Mark Complete</string>
+    <string name="mark_incomplete">Mark Incomplete</string>
+
+    <string name="minus_minute">-1 Minute</string>
+    <string name="plus_minute">+1 Minute</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+
+    <string name="start">start</string>
+    <string name="stop">stop</string>
+    <string name="zero_time">00:00</string>
+
+    <string name="file_extension">.c25k</string>
+    <string name="file_run">RUN</string>
+    <string name="file_walk">WALK</string>
+    <string name="file_cooldown">COOLDOWN</string>
+    <string name="file_warmup">WARMUP</string>
+
+    <string name="pref_complete_prefix">complete</string>
+    <string name="pref_day">lastday</string>
+    <string name="pref_week">lastweek</string>
+    <string name="pref_key">myprefs</string>
+
+    <string name="channel_name">C25K Notifcations</string>
+    <string name="channel_description">Notifcations from C25K</string>
+
+    <string-array name="week_array">
+        <item>Week 1</item>
+        <item>Week 2</item>
+        <item>Week 3</item>
+        <item>Week 4</item>
+        <item>Week 5</item>
+        <item>Week 6</item>
+        <item>Week 7</item>
+        <item>Week 8</item>
+    </string-array>
+
+    <string-array name="day_array">
+        <item>Day 1</item>
+        <item>Day 2</item>
+        <item>Day 3</item>
+    </string-array>
+
+</resources>

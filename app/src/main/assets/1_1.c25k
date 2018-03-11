@@ -1,0 +1,19 @@
+Brisk five-minute warmup walk. Then alternate 60 seconds of jogging and 90 seconds of walking for a total of 20 minutes.
+WARMUP 300
+RUN 60
+WALK 90
+RUN 60
+WALK 90
+RUN 60
+WALK 90
+RUN 60
+WALK 90
+RUN 60
+WALK 90
+RUN 60
+WALK 90
+RUN 60
+WALK 90
+RUN 60
+WALK 90
+COOLDOWN 300

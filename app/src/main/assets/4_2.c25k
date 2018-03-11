@@ -1,0 +1,10 @@
+Brisk five-minute warmup walk, then: Jog for 3 minutes, Walk 90 seconds, Jog for 5 minutes, Walk for 2.5 minutes. Jog for 3 minutes, Walk 90 seconds, Jog for 5 minutes.
+WARMUP 300
+RUN 180
+WALK 90
+RUN 300
+WALK 150
+RUN 180
+WALK 90
+RUN 300
+COOLDOWN 300

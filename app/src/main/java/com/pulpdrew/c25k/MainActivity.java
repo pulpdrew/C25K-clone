@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements Timer.TimerListen
     private static String CHANNEL_ID = "125348";
     private static int NOTIFICATION_ID = 123;
 
+    private static int PROGRESS_SUBDIVISIONS = 1000;
+
     /*
      * Layout View variables
      */
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements Timer.TimerListen
         });
 
         // setup progress bar with 0 progress and grey color
-        timerProgressBar.setMax(100);
+        timerProgressBar.setMax(PROGRESS_SUBDIVISIONS);
         timerProgressBar.setProgress(0);
         timerProgressBar.getProgressDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
 
@@ -262,7 +264,9 @@ public class MainActivity extends AppCompatActivity implements Timer.TimerListen
         if (day.getStageNumber() + 1 == day.numberOfStages()) {
 
             // Stop the day
-            toggleStart();
+            if (started) {
+                toggleStart();
+            }
 
             // If the day was incomplete, mark it completed.
             if (!day.isComplete()) {
@@ -374,8 +378,16 @@ public class MainActivity extends AppCompatActivity implements Timer.TimerListen
             pauseButton.setEnabled(false);
             plusButton.setEnabled(false);
             minusButton.setEnabled(false);
-            timerProgressBar.setProgress(0);
+
+            // Animate the progress bar if the API level is high enough
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                this.timerProgressBar.setProgress(0, true);
+            } else {
+                this.timerProgressBar.setProgress(0);
+            }
+
             timerProgressBar.getProgressDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             notificationManager.cancelAll();
         }
@@ -417,15 +429,21 @@ public class MainActivity extends AppCompatActivity implements Timer.TimerListen
     }
 
     @Override
-    public void onTimerTick(int secondsRemaining) {
-        int minutes = secondsRemaining / 60;
-        int seconds = secondsRemaining % 60;
+    public void onTimerTick(long millisLeft) {
+        long minutes = millisLeft / 1000 / 60;
+        long seconds = (millisLeft / 1000) % 60;
 
         // Update the timer text view to match the timer
         this.timerTV.setText(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
-        this.timerProgressBar.setProgress(100 - 100 * secondsRemaining / stage.getLength());
+
+        // Animate the progress bar if the API level is high enough
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            this.timerProgressBar.setProgress((int) (PROGRESS_SUBDIVISIONS - PROGRESS_SUBDIVISIONS * (millisLeft / 1000) / stage.getLength()), true);
+        } else {
+            this.timerProgressBar.setProgress((int) (PROGRESS_SUBDIVISIONS - PROGRESS_SUBDIVISIONS * (millisLeft / 1000) / stage.getLength()));
+        }
 
         // Update the notification.
-        buildNotification(secondsRemaining);
+        buildNotification((int) (millisLeft / 1000));
     }
 }

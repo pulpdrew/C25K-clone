@@ -13,7 +13,7 @@ public class Timer {
      * Instance and state variables
      */
     private CountDownTimer cdt;
-    private int duration, remaining;
+    private long duration, remaining;
     private boolean isRunning;
     private TimerListener listener;
 
@@ -37,7 +37,7 @@ public class Timer {
         cdt.cancel();
 
         // add a minute to cdt
-        remaining += 60;
+        remaining += 60 * 1000;
         cdt = getCDT(remaining);
 
         // notify listeners if cdt is above original duration
@@ -51,7 +51,7 @@ public class Timer {
         }
 
         // tick so that the updated time is sent to listeners
-        tick(remaining * 1000);
+        tick(remaining);
 
     }
 
@@ -65,7 +65,7 @@ public class Timer {
         cdt.cancel();
 
         // subtract a minute to cdt
-        remaining -= 60;
+        remaining -= 60 * 1000;
 
         // If the timer has less than 0 seconds left, end the timer.
         if (remaining <= 0) {
@@ -83,7 +83,7 @@ public class Timer {
         }
 
         // tick so that the updated time is sent to listeners
-        tick(remaining * 1000);
+        tick(remaining);
 
     }
 
@@ -114,9 +114,9 @@ public class Timer {
         if (cdt != null) {
             cdt.cancel();
         }
-        cdt = getCDT(seconds);
+        cdt = getCDT(seconds * 1000);
         cdt.start();
-        duration = seconds;
+        duration = seconds * 1000;
         isRunning = true;
     }
 
@@ -124,20 +124,20 @@ public class Timer {
      * Accessor methods
      */
 
-    public int getDuration() {
+    public long getDuration() {
         return duration;
     }
 
-    public int getRemainingTime() {
+    public long getRemainingTime() {
         return remaining;
     }
 
     /*
      * Utility methods
      */
-    private CountDownTimer getCDT(int seconds) {
+    private CountDownTimer getCDT(long millis) {
 
-        CountDownTimer CDT = new CountDownTimer(seconds * 1000, 1000) {
+        CountDownTimer CDT = new CountDownTimer(millis, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 tick(millisUntilFinished);
@@ -156,8 +156,8 @@ public class Timer {
     }
 
     private void tick(long millisecondsLeft) {
-        notifyTickListener((int) (millisecondsLeft / 1000));
-        this.remaining = (int) (millisecondsLeft / 1000);
+        notifyTickListener((millisecondsLeft));
+        this.remaining = (millisecondsLeft);
     }
 
     /*
@@ -170,9 +170,9 @@ public class Timer {
 
     }
 
-    private void notifyTickListener(int seconds) {
+    private void notifyTickListener(long millis) {
         if (listener != null) {
-            this.listener.onTimerTick(seconds);
+            this.listener.onTimerTick(millis);
         }
     }
 
@@ -193,7 +193,7 @@ public class Timer {
 
         void onTimerFinish();
 
-        void onTimerTick(int secondsRemaining);
+        void onTimerTick(long secondsRemaining);
     }
 
 }
